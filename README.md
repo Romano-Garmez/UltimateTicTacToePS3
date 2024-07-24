@@ -1,6 +1,6 @@
 # UltimateTicTacToe
 
-A version of Ultimate Tic Tac Toe, made in Unity.
+A version of Ultimate Tic Tac Toe, made in Unity, but downgraded to an old version of unity to function on a PS3
 
 Supported operating systems include Windows, MacOS, iOS, and Android.
 
