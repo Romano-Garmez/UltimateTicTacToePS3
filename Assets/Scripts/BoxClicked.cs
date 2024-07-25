@@ -36,6 +36,7 @@ public class BoxClicked : MonoBehaviour
     }
     void OnMouseOver()
     {
+		Debug.Log("Mouse is hovering!");
 	    if(Input.GetMouseButtonUp(0) && clickStartedHere)
 	    {
 		    UpdateTracking();
