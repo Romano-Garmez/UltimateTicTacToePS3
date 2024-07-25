@@ -7,7 +7,6 @@ using UnityEngine;
 public class BoxClicked : MonoBehaviour
 {
 	GameManager gameManager;
-	bool clickStartedHere = false;
 	GameObject smallGridHolder;
 	
 
@@ -19,25 +18,16 @@ public class BoxClicked : MonoBehaviour
     }
 
 
-
-
 	/// <summary>
 	/// This shit makes it so that the player can only play on a trigger where 
 	/// they both start and end their click there without leaving the trigger
 	/// </summary>
 
 
-
-    private void OnMouseDown() {
-	    clickStartedHere = true;
-    }
-    private void OnMouseExit() {
-	    clickStartedHere = false;
-    }
-    void OnMouseOver()
+    void VOnMouseOver()
     {
 		Debug.Log("Mouse is hovering!");
-	    if(Input.GetMouseButtonUp(0) && clickStartedHere)
+	    if(Input.GetButtonDown("Fire1"))
 	    {
 		    UpdateTracking();
         	
