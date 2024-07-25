@@ -26,7 +26,6 @@ public class BoxClicked : MonoBehaviour
 
     void VOnMouseOver()
     {
-		Debug.Log("Mouse is hovering!");
 	    if(Input.GetButtonDown("Fire1"))
 	    {
 		    UpdateTracking();
