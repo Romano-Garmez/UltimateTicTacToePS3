@@ -1,17 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class VirtualButton : MonoBehaviour
 {
-    public UnityEvent unityEvent;
+    public Button buttonScript;
 
-    // Update is called once per frame
+    void Start(){
+        buttonScript = GetComponent<Button>();
+    }
+
     void VOnMouseOver()
     {
         if (Input.GetButtonDown("Fire1"))
         {
-            unityEvent.Invoke();
+            buttonScript.onClick.Invoke();
         }
     }
 }

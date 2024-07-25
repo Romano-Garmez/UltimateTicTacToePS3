@@ -44,6 +44,25 @@ public class BoxClicked : MonoBehaviour
         }
     }
 
+	void OnMouseOver(){
+		if(Input.GetMouseButtonUp(0))
+	    {
+		    UpdateTracking();
+        	
+		    //I don't think we still need to log this, do we?
+		    //Debug.Log(gameObject.name + gameObject.transform.parent.parent.name);
+	        
+		    SpawnXorO();
+	        
+		    GameObject.Find("WhereToPlay").GetComponent<WhereToPlay>().
+			    SetLocationAndScale((smallGridHolder.transform.GetChild(transform.GetSiblingIndex())).transform);
+			    
+	        
+	        
+	        
+        }
+	}
+
 	void SpawnXorO() // Instantiates a new O or X based on which player's turn it is and changes who's turn it is
 	{
 		GameObject newPiece = Instantiate(gameManager.prefabXO[Convert.ToInt32(gameManager.xPlayerTurn)]);
