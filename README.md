@@ -20,7 +20,7 @@ For instance, if you play in the bottom right tile of a small board, your oppone
 
 ## Compiling
 
-To compile the game, you will need the Unity PS3 SDK. The best way to get this set up is to find a file online called "Unity PS3 + SDK Full installer v1.8.zip". I would link to it, but I don't believe I can legally redistribute it.
+To compile the game, you will need the Unity PS3 SDK. The best way to get this set up is to find a file online called "Unity PS3 + SDK Full installer v1.8.zip". I would offer a download for it, but I don't believe I can legally redistribute it.
 
 With that zip file obtained, just run through the batch script. When it gets to the SDK portion, just check everything with the checkbox at the top.
 
