@@ -4,9 +4,9 @@ A version of Ultimate Tic Tac Toe, made in Unity, but downgraded to Unity 5.4.0b
 
 
 ## Screenshots
-![](images/UltimateTicTacToe%20PS3%20XMB.png)
-![](images/UltimateTicTacToe%20PS3%20in-game.png)
-![](images/UltimateTicTacToe%20PS3%20in-game%202.png)
+![](Images/UltimateTicTacToe%20PS3%20XMB.png)
+![](Images/UltimateTicTacToe%20PS3%20in-game.png)
+![](Images/UltimateTicTacToe%20PS3%20in-game%202.png)
 
 
 
