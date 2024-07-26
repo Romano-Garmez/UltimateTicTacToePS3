@@ -1,6 +1,6 @@
 # UltimateTicTacToe PS3
 
-A version of Ultimate Tic Tac Toe, made in Unity, but downgraded to Unity 5.4.0b3 for PS3 build support. This build of the game includes controller support for UI and gameplay, along with other small fixes.
+A version of Ultimate Tic Tac Toe, made in Unity by my friend [here](https://github.com/alterednode/UltimateTicTacToe), but downgraded to Unity 5.4.0b3 for PS3 build support. This build of the game includes controller support for UI and gameplay, along with other small fixes.
 
 
 ## Screenshots
