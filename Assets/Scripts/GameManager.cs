@@ -48,10 +48,10 @@ public class GameManager : MonoBehaviour
 		
 		if (Screen.width > Screen.height)
 		{
-			indicator.transform.position = Vector3.Lerp(new Vector3(-6f, 0,0), indicator.transform.position, 0.5f); // if screen wider than tall, indicator on the left
+			indicator.transform.position = Vector3.Lerp(new Vector3(-6.5f, 0,0), indicator.transform.position, 0.5f); // if screen wider than tall, indicator on the left
 		}else
 		{
-			indicator.transform.position = Vector3.Lerp(new Vector3(0, 6f,0), indicator.transform.position, 0.5f); // if screen taller than wide, indicator on right
+			indicator.transform.position = Vector3.Lerp(new Vector3(0, 6.5f,0), indicator.transform.position, 0.5f); // if screen taller than wide, indicator on right
 		}
 		
 		
@@ -80,12 +80,12 @@ public class GameManager : MonoBehaviour
 		}
 		
 		// weird lerps to change position and scale
-		currentPlayerThing.transform.position = Vector3.Lerp(currentPlayerThing.transform.position, (indicator.transform.position + new Vector3(-.5f,0,0)),0.08f);
+		currentPlayerThing.transform.position = Vector3.Lerp(currentPlayerThing.transform.position, (indicator.transform.position + new Vector3(-.7f,0,0)),0.08f);
 		if (currentPlayerThing.transform.localScale.x	 < 2)
 		{
 			currentPlayerThing.transform.localScale *= 1.2f;
 		}
-		notCurrentPlayerThing.transform.position = Vector3.Lerp(notCurrentPlayerThing.transform.position, (indicator.transform.position + new Vector3(.5f,0,0)), 0.08f);
+		notCurrentPlayerThing.transform.position = Vector3.Lerp(notCurrentPlayerThing.transform.position, (indicator.transform.position + new Vector3(.7f,0,0)), 0.08f);
 		c_xPlayerTurn = xPlayerTurn;
 		if (notCurrentPlayerThing.transform.localScale.x >.8)
 		{
