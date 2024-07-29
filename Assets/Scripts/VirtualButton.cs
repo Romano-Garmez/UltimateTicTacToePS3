@@ -10,9 +10,11 @@ public class VirtualButton : MonoBehaviour
         buttonScript = GetComponent<Button>();
     }
 
-    void VOnMouseOver()
-    {
-        if (Input.GetButtonDown("Fire1"))
+	void VOnMouseOver()
+	{
+    	
+    	
+		if (Input.GetButtonUp("Fire1") || Input.GetButtonUp("Fire1Alt"))
         {
             buttonScript.onClick.Invoke();
         }
