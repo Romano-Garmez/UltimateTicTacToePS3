@@ -16,6 +16,9 @@ public class GameManager : MonoBehaviour
 	public GameObject restartButton;
 	
 	private bool c_xPlayerTurn;
+	
+	public VirtualMouse controller1;
+	public VirtualMouse controller2;
 
     // Start is called before the first frame update
     void Start()
@@ -80,12 +83,12 @@ public class GameManager : MonoBehaviour
 		}
 		
 		// weird lerps to change position and scale
-		currentPlayerThing.transform.position = Vector3.Lerp(currentPlayerThing.transform.position, (indicator.transform.position + new Vector3(-.7f,0,0)),0.08f);
+		currentPlayerThing.transform.position = Vector3.Lerp(currentPlayerThing.transform.position, (indicator.transform.position + new Vector3(-.6f,0,0)),0.08f);
 		if (currentPlayerThing.transform.localScale.x	 < 2)
 		{
 			currentPlayerThing.transform.localScale *= 1.2f;
 		}
-		notCurrentPlayerThing.transform.position = Vector3.Lerp(notCurrentPlayerThing.transform.position, (indicator.transform.position + new Vector3(.7f,0,0)), 0.08f);
+		notCurrentPlayerThing.transform.position = Vector3.Lerp(notCurrentPlayerThing.transform.position, (indicator.transform.position + new Vector3(.6f,0,0)), 0.08f);
 		c_xPlayerTurn = xPlayerTurn;
 		if (notCurrentPlayerThing.transform.localScale.x >.8)
 		{
