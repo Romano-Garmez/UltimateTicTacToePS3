@@ -82,7 +82,6 @@ public class VirtualMouse : MonoBehaviour
             cursorIndicator.transform.GetChild(1).gameObject.SetActive(!gameManager.xPlayerTurn);
         }
 
-        //	Debug.Log("sending Raycast, isPlayer1: " + isPlayer1);
         RaycastHit hit = new RaycastHit();
         Ray ray = new Ray(this.transform.position, Vector3.forward * 10);
         Debug.DrawRay(this.transform.position, Vector3.forward * 10, Color.red);
@@ -90,6 +89,17 @@ public class VirtualMouse : MonoBehaviour
         if (Physics.Raycast(ray, out hit, 1000.0f))
         {
             hit.transform.SendMessage("VOnMouseOver");
+        }
+        else
+        {
+            bool fireController1 = Input.GetButtonDown("Fire1");
+            bool fireController2 = Input.GetButtonDown("Fire1Alt");
+
+            if (fireController1 || fireController2)
+            {
+                // if we don't hit anything when we click, we play the fail sound
+                gameManager.audioManager.PlayClip("ClickFail");
+            }
         }
     }
 }
