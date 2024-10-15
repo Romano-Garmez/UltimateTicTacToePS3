@@ -18,11 +18,12 @@ public class BoxClicked : MonoBehaviour
     void Start()
     {
         gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        smallGridHolder = GameObject.Find("Small Grids");
-
-        controller1 = GameObject.Find("Controller Cursor 1").GetComponent<VirtualMouse>();
-        controller2 = GameObject.Find("Controller Cursor 2").GetComponent<VirtualMouse>();
-    }
+	    smallGridHolder = GameObject.Find("Small Grids");
+	    
+	    controller1 = GameObject.Find("Controller Cursor 1").GetComponent<VirtualMouse>();
+	    controller2 = GameObject.Find("Controller Cursor 2").GetComponent<VirtualMouse>();
+    
+	   }
 
     /// <summary>
     /// This shit makes it so that the player can only play on a trigger where
@@ -81,21 +82,32 @@ public class BoxClicked : MonoBehaviour
             }
         }
 
-        if (canWeContinueTheGame) { 
+        if (canWeContinueTheGame)
+        {
             MakeMove();
         }
     }
 
     void MakeMove()
     {
+        if (!gameManager.canHumanPlayerPlay)
+        {
+            gameManager.audioManager.PlayClip("ClickFail");
+            //TODO: add a sound effect here for if the player tries to play when they are not allowed to. check if this works once online is implemented
+            return;
+        }
+
         gameManager.audioManager.PlayClip("ClickSucceed");
 
-        UpdateTracking();
+        UpdateScoreTracking();
 
         //I don't think we still need to log this, do we?
         //Debug.Log(gameObject.name + gameObject.transform.parent.parent.name);
 
-        SpawnXorO();
+        SpawnXorO(gameManager.xPlayerTurn);
+
+        //update who's turn it is.
+        gameManager.xPlayerTurn = !gameManager.xPlayerTurn;
 
         GameObject
             .Find("WhereToPlay")
@@ -105,20 +117,20 @@ public class BoxClicked : MonoBehaviour
             );
     }
 
-    void SpawnXorO() // Instantiates a new O or X based on which player's turn it is and changes who's turn it is
+
+
+    public void SpawnXorO(bool xPlayerTurn) // Instantiates a new O or X 
     {
         GameObject newPiece = Instantiate(
-            gameManager.prefabXO[Convert.ToInt32(gameManager.xPlayerTurn)]
+            gameManager.prefabXO[Convert.ToInt32(xPlayerTurn)]
         );
         newPiece.transform.position = gameObject.transform.position;
         newPiece.transform.parent = gameObject.transform.parent.parent;
 
-        gameManager.xPlayerTurn = !gameManager.xPlayerTurn;
-
         gameObject.SetActive(false);
     }
 
-    void UpdateTracking() // tells the Grid Manager which thing was clicked
+    public void UpdateScoreTracking() // tells the Grid Manager which thing was clicked
     {
         int intOfThis = transform.GetSiblingIndex();
 
