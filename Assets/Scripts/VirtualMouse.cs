@@ -52,6 +52,7 @@ public class VirtualMouse : MonoBehaviour
         Vector3 screenPos = Camera.main.WorldToScreenPoint(cursorPosition);
 
         // Clamp the cursor position to the screen bounds (optional)
+        //Debug.Log("Screen width: " + Screen.width);
         screenPos.x = Mathf.Clamp(screenPos.x, 0, Screen.width);
         screenPos.y = Mathf.Clamp(screenPos.y, 0, Screen.height);
 
@@ -62,6 +63,8 @@ public class VirtualMouse : MonoBehaviour
 
         if (gameManager.controller1.inUse && gameManager.controller2.inUse)
         {
+            //	Debug.Log("two controllers in use");
+
             if (isPlayer1 == gameManager.xPlayerTurn)
             {
                 cursorIndicator.transform.position = transform.position;
@@ -82,6 +85,7 @@ public class VirtualMouse : MonoBehaviour
             cursorIndicator.transform.GetChild(1).gameObject.SetActive(!gameManager.xPlayerTurn);
         }
 
+        //	Debug.Log("sending Raycast, isPlayer1: " + isPlayer1);
         RaycastHit hit = new RaycastHit();
         Ray ray = new Ray(this.transform.position, Vector3.forward * 10);
         Debug.DrawRay(this.transform.position, Vector3.forward * 10, Color.red);
@@ -98,7 +102,7 @@ public class VirtualMouse : MonoBehaviour
             if (fireController1 || fireController2)
             {
                 // if we don't hit anything when we click, we play the fail sound
-                gameManager.audioManager.PlayClip("ClickFail");
+				gameManager.audioManager.PlayClip("ClickFail");
             }
         }
     }

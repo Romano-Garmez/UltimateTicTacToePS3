@@ -5,6 +5,9 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public bool multiplayerEnabled;
+    public bool canHumanPlayerPlay;
+
     public bool xPlayerTurn;
     public GameObject indicator;
     public GameObject[] prefabXO;
@@ -24,19 +27,23 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        canHumanPlayerPlay = true;
         xPlayerTurn = Random.value > 0.5f;
         c_xPlayerTurn = !xPlayerTurn;
-        restartButton = GameObject.Find("RestartButton");
-        restartButton.SetActive(false);
+        if (multiplayerEnabled == false)
+        {
+            restartButton = GameObject.Find("RestartButton");
+            restartButton.SetActive(false);
+        }
 
-        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+		audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
     }
 
     // Update is called once per frame
 
     void Update()
     {
-        AnimateIndicator(); //idgaf about your pc, animate the indicator of which player's turn it is
+        AnimateIndicator(); //animate the indicator of which player's turn it is
     }
 
     public void Restart()
@@ -52,7 +59,7 @@ public class GameManager : MonoBehaviour
         if (Screen.width > Screen.height)
         {
             indicator.transform.position = Vector3.Lerp(
-                new Vector3(-6.5f, 0, 0),
+                new Vector3(-5.62f, 0, 0),
                 indicator.transform.position,
                 0.5f
             ); // if screen wider than tall, indicator on the left
@@ -60,7 +67,7 @@ public class GameManager : MonoBehaviour
         else
         {
             indicator.transform.position = Vector3.Lerp(
-                new Vector3(0, 6.5f, 0),
+                new Vector3(0, 5.4f, 0),
                 indicator.transform.position,
                 0.5f
             ); // if screen taller than wide, indicator on right
@@ -70,7 +77,7 @@ public class GameManager : MonoBehaviour
         if (c_xPlayerTurn != xPlayerTurn)
         {
             /*
-            dumb FUCKING logic to change the big / small one
+            dumb logic to change the big / small one
             
             */
             if (xPlayerTurn)
@@ -88,7 +95,7 @@ public class GameManager : MonoBehaviour
         // weird lerps to change position and scale
         currentPlayerThing.transform.position = Vector3.Lerp(
             currentPlayerThing.transform.position,
-            (indicator.transform.position + new Vector3(-.6f, 0, 0)),
+            (indicator.transform.position + new Vector3(-.5f, 0, 0)),
             0.08f
         );
         if (currentPlayerThing.transform.localScale.x < 2)
@@ -97,7 +104,7 @@ public class GameManager : MonoBehaviour
         }
         notCurrentPlayerThing.transform.position = Vector3.Lerp(
             notCurrentPlayerThing.transform.position,
-            (indicator.transform.position + new Vector3(.6f, 0, 0)),
+            (indicator.transform.position + new Vector3(.5f, 0, 0)),
             0.08f
         );
         c_xPlayerTurn = xPlayerTurn;
@@ -119,7 +126,7 @@ public class GameManager : MonoBehaviour
         return false; // if there are no playable spaces return unplable
     }
 
-    public static int CheckForWin(int[] checkThis) //checks collums, rows and diagonals to find three 1 or -1 in a row
+    public static int CheckForWin(int[] checkThis) //checks columns, rows and diagonals to find three 1 or -1 in a row
     {
         int checkValue = 0;
 
