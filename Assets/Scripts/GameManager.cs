@@ -19,9 +19,6 @@ public class GameManager : MonoBehaviour
 
     private bool c_xPlayerTurn;
 
-    public VirtualMouse controller1;
-    public VirtualMouse controller2;
-
     public AudioManager audioManager;
 
     // Start is called before the first frame update
@@ -124,6 +121,11 @@ public class GameManager : MonoBehaviour
             }
         }
         return false; // if there are no playable spaces return unplable
+    }
+
+    public static void loadMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 
     public static int CheckForWin(int[] checkThis) //checks columns, rows and diagonals to find three 1 or -1 in a row

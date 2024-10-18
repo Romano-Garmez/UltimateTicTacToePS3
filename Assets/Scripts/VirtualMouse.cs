@@ -9,22 +9,43 @@ public class VirtualMouse : MonoBehaviour
     public string vertAxisName;
     public bool inUse = false;
     GameManager gameManager;
+    ControllerManager controllerManager;
     GameObject cursorIndicator;
+
+    public VirtualMouse controller1;
+    public VirtualMouse controller2;
 
     private Vector3 cursorPosition;
 
     // Use this for initialization
     void Start()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        try
+        {
+            gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        }
+        catch
+        {
+            Debug.Log("GameManager not found");
+        }
+
+        controllerManager = GameObject.Find("ControllerManager").GetComponent<ControllerManager>();
+
         cursorPosition = transform.position;
         cursorIndicator = GameObject.Find("CursorIndicator");
 
-        //ensure this only happens once
-        if (isPlayer1)
+        try
         {
-            cursorIndicator.transform.GetChild(0).gameObject.SetActive(false);
-            cursorIndicator.transform.GetChild(1).gameObject.SetActive(false);
+            //ensure this only happens once
+            if (isPlayer1)
+            {
+                cursorIndicator.transform.GetChild(0).gameObject.SetActive(false);
+                cursorIndicator.transform.GetChild(1).gameObject.SetActive(false);
+            }
+        }
+        catch
+        {
+            Debug.Log("Cursor Indicator not found");
         }
     }
 
@@ -61,28 +82,33 @@ public class VirtualMouse : MonoBehaviour
         // Apply the new position to the cursor GameObject
         transform.position = cursorPosition;
 
-        if (gameManager.controller1.inUse && gameManager.controller2.inUse)
+        if (gameManager != null)
         {
-            //	Debug.Log("two controllers in use");
 
-            if (isPlayer1 == gameManager.xPlayerTurn)
+            if (controllerManager.controller1.inUse && controllerManager.controller2.inUse)
+            {
+                //	Debug.Log("two controllers in use");
+
+                if (isPlayer1 == gameManager.xPlayerTurn)
+                {
+                    cursorIndicator.transform.position = transform.position;
+                    cursorIndicator.transform.GetChild(0).gameObject.SetActive(gameManager.xPlayerTurn);
+                    cursorIndicator
+                        .transform.GetChild(1)
+                        .gameObject.SetActive(!gameManager.xPlayerTurn);
+                }
+                else
+                {
+                    return;
+                }
+            }
+            if (controllerManager.controller1.inUse != controllerManager.controller2.inUse)
             {
                 cursorIndicator.transform.position = transform.position;
                 cursorIndicator.transform.GetChild(0).gameObject.SetActive(gameManager.xPlayerTurn);
-                cursorIndicator
-                    .transform.GetChild(1)
-                    .gameObject.SetActive(!gameManager.xPlayerTurn);
+                cursorIndicator.transform.GetChild(1).gameObject.SetActive(!gameManager.xPlayerTurn);
             }
-            else
-            {
-                return;
-            }
-        }
-        if (gameManager.controller1.inUse != gameManager.controller2.inUse)
-        {
-            cursorIndicator.transform.position = transform.position;
-            cursorIndicator.transform.GetChild(0).gameObject.SetActive(gameManager.xPlayerTurn);
-            cursorIndicator.transform.GetChild(1).gameObject.SetActive(!gameManager.xPlayerTurn);
+
         }
 
         //	Debug.Log("sending Raycast, isPlayer1: " + isPlayer1);
@@ -101,8 +127,12 @@ public class VirtualMouse : MonoBehaviour
 
             if (fireController1 || fireController2)
             {
-                // if we don't hit anything when we click, we play the fail sound
-                gameManager.audioManager.PlayClip("ClickFail");
+                if (gameManager != null)
+                {
+                    // if we don't hit anything when we click, we play the fail sound
+                    gameManager.audioManager.PlayClip("ClickFail");
+                }
+
             }
         }
     }

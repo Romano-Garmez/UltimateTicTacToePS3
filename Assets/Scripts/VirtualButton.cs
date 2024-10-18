@@ -5,15 +5,28 @@ public class VirtualButton : MonoBehaviour
 {
     public Button buttonScript;
     GameManager gameManager;
-    private VirtualMouse controller1;
-    private VirtualMouse controller2;
+    ControllerManager controllerManager;
+    AudioManager audioManager;
+
+    public bool canAlwaysBeClicked = false;
 
     void Start()
     {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        controllerManager = GameObject.Find("ControllerManager").GetComponent<ControllerManager>();
+        audioManager = GameObject.Find("AudioManager").GetComponent<AudioManager>();
+        try
+        {
 
-        controller1 = GameObject.Find("Controller Cursor 1").GetComponent<VirtualMouse>();
-        controller2 = GameObject.Find("Controller Cursor 2").GetComponent<VirtualMouse>();
+            if (!canAlwaysBeClicked)
+            {
+                gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            }
+        }
+        catch
+        {
+            Debug.Log("GameManager not found");
+        }
+
 
         buttonScript = GetComponent<Button>();
     }
@@ -22,35 +35,54 @@ public class VirtualButton : MonoBehaviour
     {
         // code pulled from BoxClicked.cs
 
-        bool xturn = gameManager.xPlayerTurn;
-
-        bool fireController1 = Input.GetButtonDown("Fire1");
-        bool fireController2 = Input.GetButtonDown("Fire1Alt");
-
-        bool canWeContinueTheGame = false;
-
-        if (controller1.inUse && controller2.inUse)
+        if (gameManager != null)
         {
-            if (xturn && fireController1)
+
+
+            bool xturn = gameManager.xPlayerTurn;
+
+            bool fireController1 = Input.GetButtonDown("Fire1");
+            bool fireController2 = Input.GetButtonDown("Fire1Alt");
+
+            bool canWeContinueTheGame = false;
+
+            if (controllerManager.controller1.inUse && controllerManager.controller2.inUse)
             {
-                canWeContinueTheGame = true;
+                if (xturn && fireController1)
+                {
+                    canWeContinueTheGame = true;
+                }
+                if ((!xturn) && fireController2)
+                {
+                    canWeContinueTheGame = true;
+                }
             }
-            if ((!xturn) && fireController2)
+            if (controllerManager.controller1.inUse != controllerManager.controller2.inUse)
             {
-                canWeContinueTheGame = true;
+                if (fireController1 || fireController2)
+                {
+                    canWeContinueTheGame = true;
+                }
             }
+
+            if (canWeContinueTheGame)
+            {
+                audioManager.PlayClip("ClickSucceed");
+                buttonScript.onClick.Invoke();
+            }
+
         }
-        if (controller1.inUse != controller2.inUse)
+        else
         {
+
+            bool fireController1 = Input.GetButtonDown("Fire1");
+            bool fireController2 = Input.GetButtonDown("Fire1Alt");
+
             if (fireController1 || fireController2)
             {
-                canWeContinueTheGame = true;
+                audioManager.PlayClip("ClickSucceed");
+                buttonScript.onClick.Invoke();
             }
-        }
-
-        if (canWeContinueTheGame)
-        {
-            buttonScript.onClick.Invoke();
         }
     }
 }
