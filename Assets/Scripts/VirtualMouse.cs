@@ -12,9 +12,6 @@ public class VirtualMouse : MonoBehaviour
     ControllerManager controllerManager;
     GameObject cursorIndicator;
 
-    public VirtualMouse controller1;
-    public VirtualMouse controller2;
-
     private Vector3 cursorPosition;
 
     // Use this for initialization
@@ -26,7 +23,7 @@ public class VirtualMouse : MonoBehaviour
         }
         catch
         {
-            Debug.Log("GameManager not found");
+            Debug.Log("VirtualMouse: GameManager not found");
         }
 
         controllerManager = GameObject.Find("ControllerManager").GetComponent<ControllerManager>();
@@ -52,6 +49,9 @@ public class VirtualMouse : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        bool fireController1 = Input.GetButtonDown("Fire1");
+        bool fireController2 = Input.GetButtonDown("Fire1Alt");
+
         // Get input from the left stick
         float horizontal = Input.GetAxis(horizAxisName);
         float vertical = Input.GetAxis(vertAxisName);
@@ -122,10 +122,9 @@ public class VirtualMouse : MonoBehaviour
         }
         else
         {
-            bool fireController1 = Input.GetButtonDown("Fire1");
-            bool fireController2 = Input.GetButtonDown("Fire1Alt");
 
-            if (fireController1 || fireController2)
+
+            if (fireController1 && isPlayer1 || fireController2 && !isPlayer1)
             {
                 if (gameManager != null)
                 {
@@ -133,6 +132,15 @@ public class VirtualMouse : MonoBehaviour
                     gameManager.audioManager.PlayClip("ClickFail");
                 }
 
+            }
+        }
+        if (gameManager != null)
+        {
+            //if incorrect user clicks, click fail sound
+            if (fireController1 && !isPlayer1 || fireController2 && isPlayer1)
+            {
+                // if we don't hit anything when we click, we play the fail sound
+                gameManager.audioManager.PlayClip("ClickFail");
             }
         }
     }
