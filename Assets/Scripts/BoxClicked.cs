@@ -64,7 +64,7 @@ public class BoxClicked : MonoBehaviour
 
         if (controllerManager.controller1.inUse && controllerManager.controller2.inUse)
         {
-            Debug.Log("two controllers detected");
+	        //Debug.Log("two controllers detected");
             if (xturn && fireController1)
             {
                 canWeContinueTheGame = true;
@@ -76,7 +76,7 @@ public class BoxClicked : MonoBehaviour
         }
         if (controllerManager.controller1.inUse != controllerManager.controller2.inUse)
         {
-            Debug.Log("Only one controller detected");
+	        //Debug.Log("Only one controller detected");
             if (fireController1 || fireController2)
             {
                 canWeContinueTheGame = true;
@@ -100,20 +100,37 @@ public class BoxClicked : MonoBehaviour
 
         gameManager.audioManager.PlayClip("ClickSucceed");
 
-        UpdateScoreTracking();
 
+
+        UpdateScoreTracking(gameManager.xPlayerTurn);
+
+        bool playingAnX = gameManager.xPlayerTurn;
 
         SpawnXorO(gameManager.xPlayerTurn);
 
         //update who's turn it is.
         gameManager.xPlayerTurn = !gameManager.xPlayerTurn;
 
+        MoveWhereToPlay();
+
+        if (gameManager.multiplayerEnabled)
+        {
+            Debug.Log("multiplayerMoveMade");
+            gameManager.canHumanPlayerPlay = false;
+            GameObject.Find("OnlineManager").GetComponent<OnlineManager>().humanPlayerPlayedAt(this.transform, playingAnX);
+            
+        }
+
+    }
+
+    public void MoveWhereToPlay()
+    {
         GameObject
-            .Find("WhereToPlay")
-            .GetComponent<WhereToPlay>()
-            .SetLocationAndScale(
-                (smallGridHolder.transform.GetChild(transform.GetSiblingIndex())).transform
-            );
+           .Find("WhereToPlay")
+           .GetComponent<WhereToPlay>()
+           .SetLocationAndScale(
+               (smallGridHolder.transform.GetChild(transform.GetSiblingIndex())).transform
+           );
     }
 
 
@@ -129,11 +146,11 @@ public class BoxClicked : MonoBehaviour
         gameObject.SetActive(false);
     }
 
-    public void UpdateScoreTracking() // tells the Grid Manager which thing was clicked
+    public void UpdateScoreTracking(bool xPlayerPlayed) // tells the Grid Manager which thing was clicked
     {
         int intOfThis = transform.GetSiblingIndex();
 
-        if (gameManager.xPlayerTurn)
+        if (xPlayerPlayed)
         {
             transform
                 .parent.parent.gameObject.GetComponent<GridManager>()
